@@ -28,7 +28,7 @@ export class PtwRaiseFormComponent implements OnInit {
   material: string;
   materials: any = [];
   defaultVal: number;
-  public count: any = [];
+  public count: any;
   myForm: FormGroup;
   file: any;
   doc_method: string;
@@ -122,10 +122,13 @@ export class PtwRaiseFormComponent implements OnInit {
       }
       console.log('rrrrrrrrrrrrrr', this.role)
       console.log('pppppppp', this.roles)
-      this.role.forEach((element, index) => {
+      this.role.map(function (element) {
         element.count = 0;
-        //  this.count[index] = 0;
-      });
+      })
+      // this.role.forEach((element, index) => {
+      //   element.count = 0;
+      //   //  this.count[index] = 0;
+      // });
       console.log('1111111111', this.role)
 
       this.roles.forEach((element, index) => {
