@@ -221,36 +221,48 @@
       <div *ngIf="form_step == 2">
 
         <div class="panel panel-filled">
-          <div class="panel-body">
-            <div class="row"  *ngFor="let item of typeDoc; let i=index">
+          <div class="panel-body">Trades / Roles / Manpower
+            <div class="row" *ngFor="let item of role; let i=index">
               <div class="col-md-6 mt-3" id="buttons">
-                Trades / Roles / Manpower
                 <ul class="list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{item.role}}
-                    <span class="badge badge-primary badge-pill">{{count}}</span>
+                    <span class="badge badge-primary badge-pill">{{count[i]}}</span>
                   </li>
                 </ul>
               </div>
+
+
+              <!-- <div class="col-md-2 margin-top-15">
+                <label class="field-required" for="Upload_type">Trades / Roles / Manpower</label>
+              </div>
+              <div class=" col-md-4 margin-top-15">
+                <select name="Upload_type" class="form-control" [(ngModel)]="Upload_type">
+                  <option value="{{ item.ptw_doc_id }}" *ngFor="let item of doctype">{{ item.doc_type_name }}</option>
+                </select>
+              </div> -->
+
+
+
               <div class="col-md-6 mt-5">
                 <button class="btn btn-outline-secondary" type="button" (click)="onAdd(i)">+</button>
-                <button class="btn btn-outline-secondary"  type="button" (click)="onSub()">-</button>
+                <button class="btn btn-outline-secondary"  type="button" (click)="onSub(i)">-</button>
               </div>
             </div>
 
-            <div class="row">
+            <div class="row" *ngFor="let item of roles; let i=index">
               <div class="col-md-6 mt-3">
                 PTW Specific roles
                 <ul class="list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Hello
-                    <span class="badge badge-primary badge-pill">{{count}}</span>
+                    {{item.role}}
+                    <span class="badge badge-primary badge-pill">{{coun[i]}}</span>
                   </li>
                 </ul>
               </div>
               <div class="col-md-6 mt-5">
-                <button class="btn btn-outline-secondary" type="button" (click)="onAdd()">+</button>
-                <button class="btn btn-outline-secondary" type="button" (click)="onSub()">-</button>
+                <button class="btn btn-outline-secondary" type="button" (click)="onAdd1(i)">+</button>
+                <button class="btn btn-outline-secondary" type="button" (click)="onSub1(i)">-</button>
               </div>
             </div>
             <div class="row">

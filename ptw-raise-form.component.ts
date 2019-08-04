@@ -12,6 +12,10 @@ import { ToastrManager } from "ng6-toastr-notifications";
   styleUrls: ['./ptw-raise-form.component.styl']
 })
 export class PtwRaiseFormComponent implements OnInit {
+  coun: any = [];
+  count1: any;
+  role: any = [];
+  roles: any = [];
   typeDoc: any = [];
   public form_step = 2;
   trade: string;
@@ -24,7 +28,7 @@ export class PtwRaiseFormComponent implements OnInit {
   material: string;
   materials: any = [];
   defaultVal: number;
-  public count: number = 0;
+  public count: any = [];
   myForm: FormGroup;
   file: any;
   doc_method: string;
@@ -60,6 +64,8 @@ export class PtwRaiseFormComponent implements OnInit {
   from_date: any;
   work_involve_store_list_arr: any = [];
   work_require_store_list_arr: any = [];
+
+  list: any;
 
   constructor(private _encDec: EncryptionService, private formBuilder: FormBuilder, private toaster: ToastrManager, private _PtwRaiseFormService: PtwRaiseFormService, private router: Router) { }
   array: any = [];
@@ -104,12 +110,42 @@ export class PtwRaiseFormComponent implements OnInit {
       //  data = this._encDec.decrypt(data.edc);
 
       this.typeDoc = data.data;
+      console.log('aruna', this.typeDoc)
+      console.log('yyyyyyyyy', this.typeDoc[0].roletype)
+      for (let i = 0; i < this.typeDoc.length; i++) {
+        if (this.typeDoc[i].roletype == "General") {
+          this.role.push(this.typeDoc[i])
+        }
+        else if (this.typeDoc[i].roletype == "Specific") {
+          this.roles.push(this.typeDoc[i])
+        }
+      }
+      console.log('rrrrrrrrrrrrrr', this.role)
+      console.log('pppppppp', this.roles)
+      this.role.forEach((element, index) => {
+        this.count[index] = 0;
+      });
+
+      this.roles.forEach((element, index) => {
+        this.coun[index] = 0;
+      });
+
+      // this.typeDoc.forEach(element => {
+      //   console.log('element', element)
+      //   if (element.roletype == 'Specific') {
+      //     this.roles.push(element);
+      //     console.log('qqqqqqqqqqqq', this.roles)
+      //   }
+      // });
       console.log(this.typeDoc, "roless")
     });
   }
 
 
-
+  // array.push({
+  //   id: element.id,
+  //   count:this.count[index]
+  //       })
 
   removeformArray(i: number) {
     const control = <FormArray>this.myForm.controls["formArray"];
@@ -160,14 +196,23 @@ export class PtwRaiseFormComponent implements OnInit {
   }
 
   onAdd(i: any) {
-    debugger;
-    this.count++;
-    this.typeDoc[i].push()
-    console.log(this.count, ".............")
+    console.log('***********', i)
+    this.count[i]++;
+    // this.count1 = this.count++;
+    // console.log("111111111111111", this.count1);
   }
-  onSub() {
-    this.count--;
+  onSub(i: any) {
+    this.count[i]--;
   }
+
+  onAdd1(i: any) {
+    console.log('***********', i)
+    this.coun[i]++;
+  }
+  onSub1(i: any) {
+    this.coun[i]--;
+  }
+
   goPPMPDetails() {
     this.router.navigate(['/PTW/PPMP_Details'])
   }
@@ -334,6 +379,33 @@ export class PtwRaiseFormComponent implements OnInit {
     })
 
 
+  }
+
+  manPower() {
+
+    let result1 = {
+
+      ptw_id: 1,
+      ptw_ref_id: "fgfgfg",
+      type: "",
+      categories: Number(""),
+      number: this.reference_link,
+      status: this.status,
+      createdBy: sessionStorage.getItem('userid')
+    }
+
+    this._PtwRaiseFormService.submitManpower(result1).subscribe((data: any) => {
+      data = this._encDec.decrypt(data.edc);
+      if (data.success) {
+        this.toaster.successToastr("Upload content successfully");
+
+        console.log("file upload success", data);
+      } else {
+        this.toaster.errorToastr('Something went wrong');
+        console.log("failed to file upload");
+
+      }
+    })
   }
 
   //    this.work_require_list_data.map(item => {
