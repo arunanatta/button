@@ -125,24 +125,12 @@ export class PtwRaiseFormComponent implements OnInit {
       this.role.map(function (element) {
         element.count = 0;
       })
-      // this.role.forEach((element, index) => {
-      //   element.count = 0;
-      //   //  this.count[index] = 0;
-      // });
       console.log('1111111111', this.role)
 
       this.roles.forEach((element, index) => {
         element.count = 0;
         //   this.coun[index] = 0;
       });
-
-      // this.typeDoc.forEach(element => {
-      //   console.log('element', element)
-      //   if (element.roletype == 'Specific') {
-      //     this.roles.push(element);
-      //     console.log('qqqqqqqqqqqq', this.roles)
-      //   }
-      // });
       console.log(this.typeDoc, "roless")
     });
   }
@@ -219,6 +207,53 @@ export class PtwRaiseFormComponent implements OnInit {
   onSub1(i: any) {
     this.coun[i]--;
   }
+
+
+  manpower() {
+
+    this.role.forEach(element => {
+      if (element.count > 0) {
+        let result = {
+          ptw_id: 1,
+          ptw_ref_id: "fgfgfg",
+          type: this.role.rid,
+          categories: this.role.roletype,
+          number: this.reference_link,
+          status: this.status,
+          createdBy: sessionStorage.getItem('userid')
+        }
+      }
+    });
+
+    // let result1 = {
+
+    //   ptw_id: 1,
+    //   ptw_ref_id: "fgfgfg",
+    //   type: "",
+    //   categories: Number(""),
+    //   number: this.reference_link,
+    //   status: this.status,
+    //   createdBy: sessionStorage.getItem('userid')
+    // }
+
+    this._PtwRaiseFormService.submitManpower(result1).subscribe((data: any) => {
+      data = this._encDec.decrypt(data.edc);
+      if (data.success) {
+        this.toaster.successToastr("Upload content successfully");
+
+        console.log("file upload success", data);
+      } else {
+        this.toaster.errorToastr('Something went wrong');
+        console.log("failed to file upload");
+
+      }
+    })
+  }
+
+
+
+
+
 
   goPPMPDetails() {
     this.router.navigate(['/PTW/PPMP_Details'])
@@ -388,32 +423,8 @@ export class PtwRaiseFormComponent implements OnInit {
 
   }
 
-  manPower() {
 
-    let result1 = {
 
-      ptw_id: 1,
-      ptw_ref_id: "fgfgfg",
-      type: "",
-      categories: Number(""),
-      number: this.reference_link,
-      status: this.status,
-      createdBy: sessionStorage.getItem('userid')
-    }
-
-    this._PtwRaiseFormService.submitManpower(result1).subscribe((data: any) => {
-      data = this._encDec.decrypt(data.edc);
-      if (data.success) {
-        this.toaster.successToastr("Upload content successfully");
-
-        console.log("file upload success", data);
-      } else {
-        this.toaster.errorToastr('Something went wrong');
-        console.log("failed to file upload");
-
-      }
-    })
-  }
 
   //    this.work_require_list_data.map(item => {
   //   // this.work_require_store_list_arr.push()
